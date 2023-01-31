@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>YouTube Radio</title>
 </head>
-<body>
-<form action="/" method="post">
-    <input type="url" name="url"/>
-    <input type="submit"/>
-</form>
+<body id="">
+
+    <h1>YouTube Radio</h1>
+
+    <form action="/" method="post">
+        <input type="url" name="url"/>
+        <input type="submit" value="download" id="download"/>
+    </form>
+
+    <script>
+        
+        let body = document.getElementById("body")
+        let input = document.getElementById("download");
+        input.onclick=()=>{
+            alert(" prepairing the file (press ok to continue)")
+        }
+    </script>
 </body>
 </html>

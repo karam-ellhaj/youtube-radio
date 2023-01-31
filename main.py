@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,url_for,redirect,send_file
+from flask import Flask,render_template,request,url_for,redirect,send_file,send_from_directory
 from pytube import  YouTube
 
 app = Flask(__name__,static_folder="static")
@@ -9,15 +9,16 @@ def index():
         return render_template("index.html")
 
     link = request.form["url"]
+    path = link.split("/")[-1]+".mp3"
 
-    # with open("./static/videodb.vd","r") as vdb:
-    #     videos = vdb.readlines(-1)
-    # if not link in videos:
-    #     video = YouTube(link)
-    #     video = video.streams.order_by("resolution").filter(res="720p", audio_codec="mp4a.40.2")[0]
-    #     video.download("static/videos/",filename=link+".mp4")
-    #     with open("./static/videodb.vd", "w") as vdb:
-    #         vdb.write(link+"\n")
-    return send_file("static/watch?v=0MhVkKHYUAY.mp4")
+    try:
+        send_file("/static/videos/"+path)
+        return render_template("done.html",url=url_for("static",filename="videos/"+path))
+    except:
+        video = YouTube(link)
+        video = video.streams.filter(only_audio=True)[-1]
+        video.download("static/videos/", filename=path)
 
-app.run(debug=True)
+    return render_template("done.html",url=url_for("static",filename="videos/"+path))
+
+app.run(host="192.168.8.120",debug=True)
